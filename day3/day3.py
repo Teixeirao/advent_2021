@@ -1,4 +1,13 @@
+# day4 refactoring
 def filter(pos, value, ina):
+    l = 0
+    for l in list(ina):
+        if l[pos] != value:
+            ina.remove(l)
+    return ina
+
+# Used on day3
+def filter_orig(pos, value, ina):
     l = 0
     while l < len(ina):
         if ina[l][pos] != value:

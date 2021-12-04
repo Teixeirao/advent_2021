@@ -24,7 +24,7 @@ class board:
                       [False,False,False,False,False],
                       [False,False,False,False,False]]
 
-    def add_draw(self, nb):
+    def add_drawn_nb(self, nb):
         if nb in self.board_loc:
             #print("ICI")
             self.board[self.board_loc[nb][0]][self.board_loc[nb][1]] = True
@@ -83,7 +83,7 @@ for nb in draws.split(","):
     if done:
         break
     for b in all_boards:
-        b.add_draw(nb)
+        b.add_drawn_nb(nb)
         #b.print()
         if b.check_board():
             wining_board = b
@@ -107,7 +107,7 @@ for b in non_wining_boards:
 
 for nb in draws.split(","):
     for b in list(non_wining_boards):
-        b.add_draw(nb)
+        b.add_drawn_nb(nb)
         if b.check_board():
             last_wining_board = b
             last_wining_nb = int(nb)
