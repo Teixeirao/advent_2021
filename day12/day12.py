@@ -35,7 +35,7 @@ def search_path_dfs(c, small_visit_list, pstring):
                     nb_path += search_path_dfs(connect, small_visit_list2, pstring + "->" + connect.name)
                 else:
                     nb_path += search_path_dfs(connect, small_visit_list.copy(), pstring + "->" + connect.name)
-
+            else:
                 mxsmall = max(small_visit_list,key=small_visit_list.count)
                 if small_visit_list.count(mxsmall) < 2:
                     small_visit_list2 = small_visit_list.copy()
@@ -112,4 +112,28 @@ for scave in starting_caves:
 
 
 print(total)
+
+
+# gen gdf for gephy
+#nodedef>name VARCHAR,label VARCHAR
+#s1,Site number 1
+#s2,Site number 2
+#s3,Site number 3
+#edgedef>node1 VARCHAR,node2 VARCHAR
+#s1,s2
+#s2,s3
+#s3,s2
+#s3,s1
+
+nodedef = "nodedef>name VARCHAR,small BOOLEAN,start BOOLEAN,end BOOLEAN\n"
+edgedef = "edgedef>node1 VARCHAR,node2 VARCHAR"
+
+for n in all_caves:
+    c = all_caves[n]
+    nodedef += "{0},{1},{2},{3}\n".format(c.name, c.isSmall, c.name == "start", c.isend )
+    for connect in c.get_connections():
+        edgedef += "{0},{1}\n".format(c.name,connect.name)
+
+print(nodedef)
+print(edgedef)
 
