@@ -1,5 +1,7 @@
-class Cave:
+input_loc = "day12/input.txt"
+v2 = True
 
+class Cave:
     def __init__(self, name):
         self.name = name
         self.connections = []
@@ -9,12 +11,6 @@ class Cave:
 
     def add_connection(self, connecting_cave):
         self.connections.append( connecting_cave )
-
-    #def set_isend(self):
-    #    self.isend = True
- 
-    def visit_count(self):
-        return self.visited
 
     def get_connections(self):
         return self.connections
@@ -32,21 +28,16 @@ def search_path_dfs(c, small_visit_list, pstring):
 
     for connect in c.get_connections():
         if connect.name != "start":
-            #if ( connect not in small_visit_list ): #v1
             if ( connect not in small_visit_list ):
-                #print(small_visit_list)
                 if connect.isSmall:
                     small_visit_list2 = small_visit_list.copy()
                     small_visit_list2.append(connect)
                     nb_path += search_path_dfs(connect, small_visit_list2, pstring + "->" + connect.name)
                 else:
                     nb_path += search_path_dfs(connect, small_visit_list.copy(), pstring + "->" + connect.name)
-            else: #v2
-                #print("LA")
-                #print(small_visit_list)
+
                 mxsmall = max(small_visit_list,key=small_visit_list.count)
                 if small_visit_list.count(mxsmall) < 2:
-                    #print("ICI")
                     small_visit_list2 = small_visit_list.copy()
                     small_visit_list2.append(connect)
                     nb_path += search_path_dfs(connect, small_visit_list2, pstring + "->" + connect.name)
@@ -55,7 +46,7 @@ def search_path_dfs(c, small_visit_list, pstring):
     return nb_path
 
 
-input_loc = "day12/input.txt"
+
 
 with open(input_loc) as f:
     lines = f.readlines()
@@ -113,18 +104,12 @@ for n in all_caves:
     all_caves[n].visited = 0
     all_caves[n].print()
 
-#print(starting_caves)
 total = 0
 for scave in starting_caves:
-    for n in all_caves:
-        all_caves[n].visited = 0
-        #all_caves[n].print()
     small_visited = []
-    #if scave.isSmall:
-    #    small_visited.append(scave)
     n = search_path_dfs(scave, small_visited, scave.name)
     total += n
-    #print(n)
+
 
 print(total)
 
